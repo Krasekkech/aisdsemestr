@@ -1,22 +1,22 @@
 package semestr2num2;
 
 public class SegmentTree {
-    int segArr[];
+    private int segArr[];
     public int count = 0;
 
-    SegmentTree(int a[], int s){
+    public SegmentTree(int a[], int s){
         int SegHeight = (int) (Math.ceil(Math.log(s) / Math.log(2)));
         int maxSeg = 2 * (int) Math.pow(2, SegHeight) - 1;
         segArr = new int[maxSeg];
         constructSegTree(a, 0, s - 1, 0);
     }
 
-    int getMiddleInx(int first, int last){
+    private int getMiddleInx(int first, int last){
         count++;
         return first + (last - first) / 2;
     }
 
-    void valUpdateUtil(int x, int y, int inputIdx, int val, int sidx){
+    private void valUpdateUtil(int x, int y, int inputIdx, int val, int sidx){
         if (inputIdx < x || inputIdx > y){
             count++;
             return;
@@ -43,7 +43,7 @@ public class SegmentTree {
         valUpdateUtil(0, size - 1, index, diffVal, 0);
     }
 
-    int getSumUtil(int x, int y, int i, int j, int sidx){
+    private int getSumUtil(int x, int y, int i, int j, int sidx){
         if (i <= x && j >= y){
             count++;
             return segArr[sidx];
@@ -57,7 +57,7 @@ public class SegmentTree {
         return getSumUtil(x, middle, i, j, 2 * sidx + 1) + getSumUtil(middle + 1, y, i, j, 2 * sidx + 2);
     }
 
-    int getSum(int s, int x, int y){
+    public int getSum(int s, int x, int y){
         if (x < 0 || x > s - 1 || x > y){
             count++;
             return -1;
@@ -66,7 +66,7 @@ public class SegmentTree {
         return getSumUtil(0, s - 1, x, y, 0);
     }
 
-    int constructSegTree(int a[], int x, int y, int sidx){// sidx - индекс текущего узла дерева
+    private int constructSegTree(int a[], int x, int y, int sidx){// sidx - индекс текущего узла дерева
         if (x == y){ // случай когда в массиве один элемент
             count++;
             segArr[sidx] = a[x];
